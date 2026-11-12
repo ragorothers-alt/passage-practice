@@ -1,0 +1,272 @@
+/*
+ * 視覺方向：譜架上的一張譜紙。
+ * 底色是冷調的灰綠，譜面與卡片是近白的紙，文字與外框是深墨綠，
+ * 重點色取自鋼琴的紅色呢絨，輔助色是踏板的黃銅。
+ * 數字用 Bodoni（樂譜上速度記號的字體傳統），中文用系統黑體以確保離線可用。
+ */
+:root {
+  --ground: #e3e7e1;
+  --paper: #fbfbf7;
+  --ink: #1c2b27;
+  --ink-soft: #55645f;
+  --line: #c3cbc4;
+  --felt: #a4283a;
+  --felt-deep: #7d1c2b;
+  --brass: #9a7222;
+  --pine: #2c6a54;
+
+  --font-text: "Noto Sans TC", "Noto Sans CJK TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-figure: "Bodoni Moda Variable", "Bodoni MT", Didot, "Times New Roman", serif;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3125rem;
+  --step-2: 1.75rem;
+  --step-3: 2.5rem;
+
+  --gap: 1rem;
+  --radius: 10px;
+  --tap: 3rem;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--step-2);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+
+h2 {
+  font-size: var(--step-1);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.figure {
+  font-family: var(--font-figure);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 600;
+}
+
+.soft {
+  color: var(--ink-soft);
+}
+
+.small {
+  font-size: var(--step--1);
+}
+
+/* 按鈕：預設是紙面上的描邊按鈕，主要動作用呢絨紅實心 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  min-height: var(--tap);
+  padding: 0 1.1em;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: transparent;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.btn:active {
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  border-color: var(--felt);
+  background: var(--felt);
+  color: #fff;
+}
+
+.btn-primary:active {
+  background: var(--felt-deep);
+}
+
+.btn-quiet {
+  border-color: transparent;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.btn-danger {
+  border-color: transparent;
+  color: var(--felt);
+  font-weight: 500;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field-label {
+  font-weight: 600;
+}
+
+.field-hint {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+.input {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0.5em 0.75em;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.input:focus {
+  border-color: var(--ink);
+}
+
+textarea.input {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* 分段選擇：一排互斥的選項 */
+.segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.segment {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: 0 0.9em;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.segment[aria-pressed="true"],
+.segment[aria-checked="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.sheet {
+  background: var(--paper);
+  border-radius: 3px;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 1px 2px rgb(28 43 39 / 18%),
+    0 8px 24px -12px rgb(28 43 39 / 35%);
+}
+
+.page {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.stack {
+  display: grid;
+  gap: var(--gap);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.empty {
+  padding: 2rem 1.5rem;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

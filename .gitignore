@@ -1,0 +1,8 @@
+node_modules
+dist
+dev-dist
+*.log
+.DS_Store
+
+# 個人的樂譜樣本，只在本機測試用
+samples/
